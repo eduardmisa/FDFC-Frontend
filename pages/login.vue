@@ -26,7 +26,7 @@
             >
               <v-toolbar-title>
                 <span class="title">Need an account?</span>
-                <v-btn text :loading="isLoading" @click="ProceedToRegister">Register here</v-btn>
+                <v-btn text v-if="!isLoading" @click="ProceedToRegister">Register here</v-btn>
               </v-toolbar-title>
             </v-toolbar>
             <v-card-text class="mt-4">

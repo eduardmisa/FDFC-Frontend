@@ -1,17 +1,16 @@
 
 function NotAuthenticated (app, route) {
-  return !app.$auth.is_authenticated && route.name != 'login'
+  return !app.$auth.is_authenticated && (route.name != 'login' && route.name != 'register')
 }
-function AlreadyAuthenticatedAndGoingToLoginPage (app, route) {
-  return app.$auth.is_authenticated && route.name == 'login'
+function AlreadyAuthenticatedAndGoingToLoginRegisterPage (app, route) {
+  return app.$auth.is_authenticated && (route.name == 'login' || route.name == 'register')
 }
 
 export default function ({ store, route, redirect, app }) {
-  debugger
-  if (NotAuthenticated(app, route))
+  if (NotAuthenticated(app, route)) {
     redirect('/login')
-  debugger
-  if (AlreadyAuthenticatedAndGoingToLoginPage(app, route))
+  }
+  if (AlreadyAuthenticatedAndGoingToLoginRegisterPage(app, route)) {
     redirect('/')
+  }
 }
-  

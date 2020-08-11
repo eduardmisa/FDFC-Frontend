@@ -41,11 +41,16 @@ export default async (context, inject) => {
         return response
     }
 
+    const Register = async (Form) => {
+        return await context.app.$api.AuthService.Register(Form)
+    }
+
     inject('auth', {
         user,
         token,
         is_authenticated,
         login: Login,
-        logout: Logout
+        logout: Logout,
+        register: Register
     })
 }

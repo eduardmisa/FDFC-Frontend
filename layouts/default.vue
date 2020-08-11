@@ -7,11 +7,8 @@
     >
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
+      <v-btn outlined color="error" @click="Logout">
+        Logout
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -57,6 +54,12 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Frontend'
+    }
+  },
+  methods: {
+    async Logout () {
+      await this.$auth.logout()
+      document.location.reload()
     }
   }
 }

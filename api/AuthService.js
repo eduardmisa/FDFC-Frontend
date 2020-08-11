@@ -9,6 +9,38 @@ export class AuthService extends Request {
 
     _axios = null
 
+
+    async Register ({
+        username,
+        password,
+        firstname,
+        middlename,
+        lastname}) {
+
+        const form = {
+            username,
+            password,
+            firstname,
+            middlename,
+            lastname
+        }
+
+        let url = `/api/v1/auth/register/`
+
+        var response = null
+
+        await this._axios.post(url, form)
+        .then(function({data}) {
+            response = new Response(true, data, null)
+        })
+        .catch(function(error) {
+            response = new Response(false, null, error.response ? error.response.data : error)
+        })
+
+        return response
+    }
+
+
     async Login ({username,
                   password}) {
 

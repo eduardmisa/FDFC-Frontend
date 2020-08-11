@@ -26,35 +26,46 @@
             >
               <v-toolbar-title>
                 <span class="title">Already a member?</span>
-                <v-btn text :loading="isLoading" @click="ProceedToLogin">Login here</v-btn>
+                <v-btn text v-if="!isLoading" @click="ProceedToLogin">Login here</v-btn>
               </v-toolbar-title>
             </v-toolbar>
             <v-card-text class="mt-4">
               <v-form>
                 <v-text-field
-                  v-model="loginForm.username"
-                  label="Username"
+                  v-model="registerForm.username"
+                  label="Username*"
                   prepend-icon="mdi-account"
                   type="text"
                 />
-
                 <v-text-field
-                  v-model="loginForm.password"
-                  label="Password"
+                  v-model="registerForm.password"
+                  label="Password*"
                   prepend-icon="mdi-lock"
                   type="password"
                 />
                 <v-text-field
-                  v-model="loginForm.repeatPassword"
-                  label="Repeat Password"
-                  prepend-icon="mdi-lock"
-                  type="password"
+                  v-model="registerForm.firstname"
+                  label="Firstname*"
+                  prepend-icon="mdi-account"
+                  type="text"
+                />
+                <v-text-field
+                  v-model="registerForm.middlename"
+                  label="Middlename"
+                  prepend-icon="mdi-account"
+                  type="text"
+                />
+                <v-text-field
+                  v-model="registerForm.lastname"
+                  label="Lastname*"
+                  prepend-icon="mdi-account"
+                  type="text"
                 />
               </v-form>
             </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn color="secondary" :loading="isLoading" @click="Login">Submit</v-btn>
+              <v-btn :disabled="!CanRegister" color="secondary" :loading="isLoading" @click="Register">Submit</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -82,25 +93,41 @@
         snackbar: false,
         snackbarColor: null,
         message: null,
-        loginForm: {
-          username: 'superuser',
-          password: 'p@ssw0rd',
-          repeatPassword: 'p@ssw0rd'
+        registerForm: {
+          username: null,
+          password: null,
+          firstname: null,
+          middlename: null,
+          lastname: null,
         }
       }
     },
+    computed : {
+      CanRegister () {
+        if (!this.registerForm.username) return false
+        if (!this.registerForm.password) return false
+        if (!this.registerForm.firstname) return false
+        if (!this.registerForm.lastname) return false
+        return true
+      }
+    },
     methods: {
-      async Login () {
+      async Register () {
         const app = this
         app.isLoading = true
 
-        let response = await app.$auth.login(app.loginForm)
+        let response = await app.$auth.register(app.registerForm)
 
         if (!response.success) {
           app.showSnackbar(response.error, 'error')
           app.isLoading = false
           return
         }
+
+        await app.$auth.login({
+          username: app.registerForm.username,
+          password: app.registerForm.password,
+        })
         
         document.location.reload()
       },
