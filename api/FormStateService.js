@@ -1,7 +1,7 @@
 import Request from '@/api/classes/Request'
 import Response from '@/api/classes/Response'
 
-export class ClientService extends Request {
+export class FormStateService extends Request {
     constructor (axios, baseUrl) {
         super(axios, baseUrl)
     }

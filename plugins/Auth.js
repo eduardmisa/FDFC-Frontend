@@ -1,7 +1,6 @@
 export default async (context, inject) => {
 
     let user = null
-    let scope = []
     let token = null
     let is_authenticated = false
 
@@ -11,22 +10,18 @@ export default async (context, inject) => {
         return [ key, decodeURIComponent(v.join('=')) ];
     }));
 
-    let responseCurrentUser = await context.app.$api.AuthService.CurrentUser(cookieObject.access_token)
+    let responseCurrentUser = await context.app.$api.AuthService.CurrentUser(cookieObject.token)
     if (responseCurrentUser.success) {
         user = responseCurrentUser.data
-        token = cookieObject.access_token
+        token = cookieObject.token
         is_authenticated = true
         context.$axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
 
-    let responseCurrentUserScope = await context.app.$api.AuthService.CurrentUserScope(token)
-    if (responseCurrentUserScope.success) {
-        scope = responseCurrentUserScope.data
-    }
 
     // Reserve function for logout
     const Logout = async (Form) => {
-        document.cookie = `access_token=`
+        document.cookie = `token=`
         delete context.$axios.defaults.headers.common['Authorization']
     }
 
@@ -41,14 +36,13 @@ export default async (context, inject) => {
         }
 
         // Set current session's token
-        document.cookie = `access_token=${response.data.access_token}`
+        document.cookie = `token=${response.data.token}`
     
         return response
     }
 
     inject('auth', {
         user,
-        scope,
         token,
         is_authenticated,
         login: Login,

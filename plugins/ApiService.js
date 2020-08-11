@@ -1,10 +1,10 @@
 import {AuthService} from '@/api/AuthService'
-import {ClientService} from '@/api/ClientService'
+import {FormStateService} from '@/api/FormStateService'
 
 
 export default (context, inject) => {
     inject('api', {
         AuthService: new AuthService(context.$axios, '/api/v1/auth/'),
-        ClientService: new ClientService(context.$axios, '/api/v1/management/clients/'),
+        FormStateService: new FormStateService(context.$axios, '/api/v1/management/form-states/'),
     })
 }

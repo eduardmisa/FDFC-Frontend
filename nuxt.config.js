@@ -12,8 +12,8 @@ export default {
   */
   target: 'server',
   server: {
-    host: 'localhost',
-    port: 5000
+    host: process.env.HOST,
+    port: process.env.PORT
   },
   /*
   ** Headers of the page
@@ -69,9 +69,19 @@ export default {
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {
-    baseURL: 'http://localhost:8000',
+ // CLIENT SIDE axios configuration
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: process.env.API_HOST,
+    }
   },
+  // SERVER SIDE axios configuration
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.API_HOST,
+    }
+  },
+
   router: {
     middleware: ['authenticated']
   },

@@ -19,10 +19,22 @@
         <nuxt />
       </v-container>
     </v-main>
+
+    <v-snackbar
+      v-model="$store.state.toast.show"
+      top
+      :color="$store.state.toast.color"
+      multi-line
+      :timeout="2000"
+    >
+      {{ $store.state.toast.message }}
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
   data () {
     return {
