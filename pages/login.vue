@@ -77,8 +77,8 @@
         snackbarColor: null,
         message: null,
         loginForm: {
-          username: 'test',
-          password: '123'
+          username: '',
+          password: ''
         }
       }
     },
