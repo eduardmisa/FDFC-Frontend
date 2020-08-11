@@ -8,7 +8,7 @@ function AlreadyAuthenticatedAndGoingToLoginRegisterPage (app, route) {
 
 export default function ({ store, route, redirect, app }) {
   if (NotAuthenticated(app, route)) {
-    redirect('/login')
+    redirect('/register')
   }
   if (AlreadyAuthenticatedAndGoingToLoginRegisterPage(app, route)) {
     redirect('/')

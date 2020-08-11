@@ -16,5 +16,10 @@
         }
       }
     },
+    async mounted () {
+      const app = this
+      await app.$store.dispatch('form_state/FETCH_UserFormState')
+      app.$router.push('/step1')
+    }
   }
 </script>

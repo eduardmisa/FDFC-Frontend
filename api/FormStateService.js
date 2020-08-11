@@ -20,9 +20,9 @@ export class FormStateService extends Request {
             ]
         })
     }
-    async View (clientId) {
+    async View (code) {
         return this.get_request({
-            slug: `${clientId}/`,
+            slug: `${code}/`,
         })
     }
     async Create (form) {
@@ -30,15 +30,24 @@ export class FormStateService extends Request {
             form
         })
     }
-    async Update (clientId, form) {
+    async Update (code, form) {
         return this.put_request({
-            slug: `${clientId}/`,
+            slug: `${code}/`,
             form
         })
     }
-    async Delete (clientId) {
+    async Delete (code) {
         return this.delete_request({
-            slug: `${clientId}/`,
+            slug: `${code}/`,
+        })
+    }
+
+    async GetByUser (userCode) {
+        return this.get_request({
+            slug: `get-by-user/`,
+            params: [
+                {key: 'userCode', value: userCode},
+            ]
         })
     }
 }
