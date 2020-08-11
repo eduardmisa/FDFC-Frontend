@@ -6,16 +6,19 @@
       <v-text-field
         v-model="$store.state.form_state.tracking_number_1"
         label="tracking_number_1"
+        :rules="[v => !!v || 'tracking_number_1 is required']"
       >
       </v-text-field>
       <v-text-field
       v-model="$store.state.form_state.tracking_number_2"
         label="tracking_number_2"
+        :rules="[v => !!v || 'tracking_number_2 is required']"
       >
       </v-text-field>
       <v-text-field
       v-model="$store.state.form_state.tracking_number_3"
         label="tracking_number_3"
+        :rules="[v => !!v || 'tracking_number_3 is required']"
       >
       </v-text-field>
 
@@ -23,17 +26,25 @@
     <v-card-actions>
       <v-btn color="primary" @click="Previous">Back</v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="success" :loading="loading" @click="Save">Save</v-btn>
+      <v-btn :disabled="!CanProceed" color="success" :loading="loading" @click="Save">Save</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+
 export default {
   data () {
     return {
       loading: false
+    }
+  },
+  computed: {
+    CanProceed () {
+      return this.$store.state.form_state.tracking_number_1
+          && this.$store.state.form_state.tracking_number_2
+          && this.$store.state.form_state.tracking_number_3
     }
   },
   methods: {
@@ -47,7 +58,7 @@ export default {
     
       let currentFormState = JSON.parse(JSON.stringify(app.$store.getters['form_state/getForm']))
 
-      let response = await app.$api.UserService.SaveFormState(app.$auth.user.id, currentFormState)
+      let response = await app.$store.dispatch('form_state/SAVE_UserFormState')
 
       if (response.success) {
         app.$toast({show: true, message: 'Form state Saved!', color: 'success'})
@@ -63,15 +74,6 @@ export default {
         }
         app.loading = false
       }
-    }
-  },
-  mounted () {
-    const app = this
-    let currentFormState = app.$store.getters['form_state/getForm']
-    if (currentFormState) {
-      app.tracking_number_1 = currentFormState.tracking_number_1
-      app.tracking_number_2 = currentFormState.tracking_number_2
-      app.tracking_number_3 = currentFormState.tracking_number_3
     }
   }
 }

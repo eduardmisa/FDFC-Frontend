@@ -129,7 +129,7 @@
           password: app.registerForm.password,
         })
         
-        document.location.reload()
+        window.location.replace('/step1');
       },
       ProceedToLogin () {
           this.$router.push('/login')

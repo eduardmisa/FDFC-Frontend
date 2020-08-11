@@ -40,9 +40,18 @@ export default {
   },
   methods: {
     async Logout () {
+
+      const app = this
+
+      let response = await app.$store.dispatch('form_state/SAVE_UserFormState')
+
       await this.$auth.logout()
       document.location.reload()
     }
+  },
+  async mounted () {
+    const app = this
+    await app.$store.dispatch('form_state/FETCH_UserFormState')
   }
 }
 </script>

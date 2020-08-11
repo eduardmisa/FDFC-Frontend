@@ -29,5 +29,13 @@ export const state = () => ({
         state.commit('setForm', response.data)
       }
     },
+    async SAVE_UserFormState(state) {
+
+      const app = this
+
+      let currentFormState = JSON.parse(JSON.stringify(state.getters.getForm))
+
+      return await app.$api.UserService.SaveFormState(app.$auth.user.id, currentFormState)
+    },
   }
   
