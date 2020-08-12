@@ -43,9 +43,13 @@ export default {
     }
   },
   methods: {
-    Next () {
-      this.$router.push('/step2')
+    async Next () {
+      const app = this
+      app.$router.push('/step2')
     }
+  },
+  async mounted () {
+    await this.$store.dispatch('form_state/SAVE_UserFormState', 'step1')
   }
 }
 </script>

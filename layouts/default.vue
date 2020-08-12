@@ -1,7 +1,6 @@
 <template>
   <v-app dark>
     <v-app-bar
-      :clipped-left="clipped"
       fixed
       app
     >
@@ -43,7 +42,7 @@ export default {
 
       const app = this
 
-      let response = await app.$store.dispatch('form_state/SAVE_UserFormState')
+      let response = await app.$store.dispatch('form_state/SAVE_UserFormState', app.$router.currentRoute.name)
 
       await this.$auth.logout()
       document.location.reload()
@@ -51,7 +50,15 @@ export default {
   },
   async mounted () {
     const app = this
-    await app.$store.dispatch('form_state/FETCH_UserFormState')
+    let result = await app.$store.dispatch('form_state/FETCH_UserFormState')
+    let formState = app.$store.getters['form_state/getForm']
+    if (formState) {
+      try {
+        app.$router.push(formState.current_step)
+      } catch (error) {
+        
+      }
+    }
   }
 }
 </script>

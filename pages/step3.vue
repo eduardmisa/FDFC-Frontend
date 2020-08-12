@@ -55,10 +55,8 @@ export default {
       const app = this
 
       app.loading = true
-    
-      let currentFormState = JSON.parse(JSON.stringify(app.$store.getters['form_state/getForm']))
 
-      let response = await app.$store.dispatch('form_state/SAVE_UserFormState')
+      let response = await app.$store.dispatch('form_state/SAVE_UserFormState', 'step3')
 
       if (response.success) {
         app.$toast({show: true, message: 'Form state Saved!', color: 'success'})
@@ -74,6 +72,9 @@ export default {
         }
         app.loading = false
       }
+    },
+    async mounted () {
+      await this.$store.dispatch('form_state/SAVE_UserFormState', 'step3')
     }
   }
 }

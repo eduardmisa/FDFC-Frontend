@@ -1,13 +1,14 @@
 export const state = () => ({
-    firstname: null,
-    middlename: null,
-    lastname: null,
-    reference_number_1: null,
-    reference_number_2: null,
-    reference_number_3: null,
-    tracking_number_1: null,
-    tracking_number_2: null,
-    tracking_number_3: null,
+    current_step: '',
+    firstname: '',
+    middlename: '',
+    lastname: '',
+    reference_number_1: '',
+    reference_number_2: '',
+    reference_number_3: '',
+    tracking_number_1: '',
+    tracking_number_2: '',
+    tracking_number_3: '',
   })
   
   export const getters = {
@@ -29,11 +30,13 @@ export const state = () => ({
         state.commit('setForm', response.data)
       }
     },
-    async SAVE_UserFormState(state) {
+    async SAVE_UserFormState(state, step) {
 
       const app = this
 
-      let currentFormState = JSON.parse(JSON.stringify(state.getters.getForm))
+      let currentFormState = state.getters.getForm
+
+      currentFormState.current_step = step
 
       return await app.$api.UserService.SaveFormState(app.$auth.user.id, currentFormState)
     },
